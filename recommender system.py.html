@@ -1,0 +1,742 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import os
+import pandas as pd
+import numpy as np
+os.chdir('/users/mohammadawais/desktop')
+
+
+# In[2]:
+
+
+os.getcwd()
+
+
+# In[3]:
+
+
+import json
+import seaborn as sns
+import matplotlib.pyplot as plt
+import json
+import csv
+
+
+# In[4]:
+
+
+from scipy.stats import skew
+from scipy.stats import kurtosis 
+
+
+# In[5]:
+
+
+df=pd.read_json('data.json',lines=True)
+
+
+# In[6]:
+
+
+df.head()
+
+
+# In[7]:
+
+
+df.to_csv('data.csv')
+
+
+# # Investigation of Dataset
+
+# In[8]:
+
+
+df=pd.read_csv('data.csv')
+
+
+# In[9]:
+
+
+df.head()
+
+
+# In[10]:
+
+
+df.shape
+
+
+# In[11]:
+
+
+df.info()
+
+
+# In[12]:
+
+
+def missing_values(df):
+    total=df.isnull().sum().sort_values(ascending=False)
+    percent = round(df.isnull().sum().sort_values(ascending = False)/len(df)*100,4)
+    return pd.concat([total, percent], axis=1, keys=['Total','Percent'])
+missing_values(df)
+
+
+# In[13]:
+
+
+df.describe()
+
+
+# In[14]:
+
+
+df.isnull().sum()
+
+
+# In[15]:
+
+
+df.corr()
+
+
+# In[16]:
+
+
+a=df.groupby(by=['item_id'])
+a.head()
+
+
+# In[17]:
+
+
+b=df.groupby(df['user_id']).user_id.count()
+b
+
+
+# In[18]:
+
+
+print(df.skew())
+
+
+# In[19]:
+
+
+print(df.kurtosis())
+
+
+# In[20]:
+
+
+most_no_of_items = df.groupby(by='item_id')['item_id'].count().sort_values(ascending=False)
+
+print(most_no_of_items.head())
+print('total no of items',most_no_of_items.count())
+
+
+# In[21]:
+
+
+most_active_user=df.groupby(by='user_id')['user_id'].count().sort_values(ascending=False)
+print(most_active_user.head())
+print('total no of users',most_active_user.count())
+
+
+# # Exploratory Data Analysis
+
+# In[22]:
+
+
+df.columns
+
+
+# In[23]:
+
+
+sns.heatmap(df.isnull(),yticklabels=False,cbar=False,cmap='viridis')
+
+
+# In[24]:
+
+
+df.waist.hist()
+
+
+# In[25]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='cup size',data=df)
+
+
+# In[26]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='bra size',data=df)
+
+
+# In[27]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='category',data=df)
+
+
+# In[28]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='length',data=df)
+
+
+# In[29]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',data=df)
+
+
+# In[30]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='quality',data=df)
+
+
+# In[31]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='size',data=df)
+
+
+# In[32]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='waist',data=df)
+
+
+# In[33]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='hips',data=df)
+
+
+# In[34]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='bust',data=df)
+
+
+# In[35]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='height',data=df)
+
+
+# In[36]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='shoe size',data=df)
+
+
+# In[37]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='shoe width',data=df)
+
+
+# In[38]:
+
+
+sns.set_style('darkgrid')
+sns.countplot(x='quality',hue='fit',data=df,palette='RdBu_r')
+
+
+# In[39]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='quality',hue='length',data=df,palette='RdBu_r')
+
+
+# In[40]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='length',data=df,palette='RdBu_r')
+
+
+# In[41]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='category',data=df,palette='RdBu_r')
+
+
+# In[42]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='bra size',data=df,palette='RdBu_r')
+
+
+# In[43]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='size',data=df,palette='RdBu_r')
+
+
+# In[44]:
+
+
+df.columns
+
+
+# In[45]:
+
+
+sns.distplot(df['waist'])
+
+
+# In[46]:
+
+
+sns.distplot(df['size'])
+
+
+# In[47]:
+
+
+sns.distplot(df['quality'])
+
+
+# In[48]:
+
+
+sns.distplot(df['hips'])
+
+
+# In[49]:
+
+
+sns.distplot(df['bra size'])
+
+
+# In[50]:
+
+
+sns.distplot(df['shoe size'])
+
+
+# In[51]:
+
+
+df.columns
+
+
+# In[52]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='size',data=df,palette='RdBu_r')
+
+
+# In[53]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='quality',data=df,palette='RdBu_r')
+
+
+# In[54]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='waist',data=df,palette='RdBu_r')
+
+
+# In[55]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='cup size',data=df,palette='RdBu_r')
+
+
+# In[56]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='hips',data=df,palette='RdBu_r')
+
+
+# In[57]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='bra size',data=df,palette='RdBu_r')
+
+
+# In[58]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='category',data=df,palette='RdBu_r')
+
+
+# In[59]:
+
+
+sns.set_style('whitegrid')
+sns.countplot(x='fit',hue='bust',data=df,palette='RdBu_r')
+
+
+# In[60]:
+
+
+sns.set_style('darkgrid')
+sns.countplot(x='fit',hue='length',data=df,palette='rainbow')
+
+
+# In[61]:
+
+
+df['size'].hist(bins=10,color='darkred',alpha=0.3)
+
+
+# In[62]:
+
+
+df.columns
+
+
+# # Outlier Detection
+
+# In[63]:
+
+
+plt.figure(figsize=(12, 7))
+sns.boxplot(x='waist',data=df,palette='winter')
+
+
+# In[64]:
+
+
+plt.figure(figsize=(12, 7))
+sns.boxplot(x='size',data=df,palette='winter')
+
+
+# In[65]:
+
+
+plt.figure(figsize=(12, 7))
+sns.boxplot(x='hips',data=df,palette='winter')
+
+
+# In[66]:
+
+
+plt.figure(figsize=(12, 7))
+sns.boxplot(x='bra size',data=df,palette='winter')
+
+
+# In[67]:
+
+
+plt.figure(figsize=(12, 7))
+sns.boxplot(x='shoe size',data=df,palette='winter')
+
+
+# In[68]:
+
+
+sns.set_style("whitegrid");
+sns.FacetGrid(df, hue="fit", size=4).map(plt.scatter, "waist", "quality").add_legend();
+plt.show()
+
+
+# In[69]:
+
+
+df.boxplot(column='waist',by='fit')
+
+
+# In[70]:
+
+
+df.boxplot(column='quality',by='fit')
+
+
+# In[71]:
+
+
+df.boxplot(column='hips',by='fit')
+
+
+# In[72]:
+
+
+df.boxplot(column='bra size',by='fit')
+
+
+# # Preprocessing
+
+# In[73]:
+
+
+df.drop(columns=['waist'],inplace=True,axis=1)
+# more than 96% of the data are missing and may 4 % of data has high correlation with the size,hips and bra size
+#working further with only 4% of data may create inconsistency in the model it is a best to drop this variable
+
+
+# In[74]:
+
+
+df['quality'].fillna(value=4,inplace=True)
+# mean is about 3.96 thus, filling with 4
+
+
+# In[75]:
+
+
+df['cup size'].fillna(value='c',inplace=True)
+# since cup size is the most common size occured 17500 times
+
+
+# In[76]:
+
+
+df['hips'].fillna(value=40,inplace=True)
+# filling with the mean, since distribution is normal and has skewness of .96 and kurtosis of .84
+
+
+# In[77]:
+
+
+df['length'].fillna(value='just right',inplace=True)
+# since 'just right' is the mode of the length variable and hence occured more than 60000 times
+
+
+# In[78]:
+
+
+df.drop(columns=['height'],axis=1,inplace=True)
+# dropping height
+
+
+# In[79]:
+
+
+df['bra size'].fillna(value=36,inplace=True)
+# since the distribuition is normal and has skewness .90 and kurtosis 1.03 having mean 35.96, thus filling with 36
+
+
+# In[80]:
+
+
+df['review_text'].fillna(value='',inplace=True)
+df['review_summary'].fillna(value='',inplace=True)
+#filling with blank
+
+
+# In[81]:
+
+
+df.drop(columns=['bust'],inplace=True,axis=1)
+# approx 86% of data are missing
+
+
+# In[82]:
+
+
+df.drop(columns=['shoe width'],inplace=True,axis=1)
+# approx 78% of data are missing
+
+
+# In[83]:
+
+
+df.drop(columns=['shoe size'],inplace=True,axis=1)
+# 66% of data are missing
+
+
+# In[84]:
+
+
+df.drop(columns=['Unnamed: 0'],inplace=True,axis=1)
+
+
+# In[85]:
+
+
+df.head()
+
+
+# In[86]:
+
+
+df.tail(10)
+
+
+# In[87]:
+
+
+df.drop(columns=['review_summary'],inplace=True,axis=1)
+# since review_summary and review_text have both the same meaning but review_text describes the product more though,
+# dropping the review_summary variable
+
+
+# In[88]:
+
+
+df.tail(10)
+
+
+# In[89]:
+
+
+# user_id is unique id and we don't need the user_name variable all the mapping would took place through user_id
+df.drop(columns=['user_name'],inplace=True,axis=1)
+
+
+# In[90]:
+
+
+df.tail(10)
+
+
+# In[ ]:
+
+
+
+
+
+#  # Recommendation System using K-Nearest Neighbor & Content Based
+
+# ## Recommending existing user based on the best fit garments
+
+# In[91]:
+
+
+# Creating Pivot Table
+
+
+# In[92]:
+
+
+pivot_table=df.pivot_table(index='item_id',columns='user_id',values=['size','quality','category','fit']).fillna(0)
+
+
+# In[93]:
+
+
+pivot_table.head()
+
+
+# In[94]:
+
+
+# csr vector
+
+
+# In[95]:
+
+
+from scipy.sparse import csr_matrix as csr_m
+csr=csr_m(pivot_table.values)
+
+
+# In[96]:
+
+
+print(csr)
+
+
+# In[97]:
+
+
+# Using unsupervised Nearest Neighbor and cosine similarity to calculate the similarity distance and using NN for
+# recommendation
+
+
+# In[98]:
+
+
+from sklearn.neighbors import NearestNeighbors as nn
+model=nn(metric='cosine',algorithm='brute')
+model.fit(csr)
+
+
+# In[99]:
+
+
+pivot_table.shape
+
+
+# In[100]:
+
+
+# Generating a random item_id and recommending the best recommendation to the user based on the similarity of the items.
+
+
+# In[101]:
+
+
+querry_index=np.random.choice(pivot_table.shape[0])
+print(querry_index)
+
+
+# In[102]:
+
+
+distances,indices=model.kneighbors(pivot_table.iloc[querry_index,:].values.reshape(1,-1),n_neighbors=11)
+
+
+# In[103]:
+
+
+for i in range(0,len(distances.flatten())):
+    if i==0:
+        print('recommendation for item_id {0}:\n'.format(pivot_table.index[querry_index]))
+    else:
+        print('{0}: item_id {1}: with distance of {2}:'.format(i,pivot_table.index[indices.flatten()[i]],distances.flatten()[i]))
+
+
+# # Recommending New User With No Existing Record Based on The most Popular in the DataBase
+
+# In[104]:
+
+
+def new_user(item_id):
+    if item_id==0 or item_id=='':
+        print(most_no_of_items.head())
+
+        
+
+
+# In[105]:
+
+
+item_id=''
+new_user(item_id)
+
+
+# In[ ]:
+
+
+
+
